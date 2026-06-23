@@ -116,8 +116,6 @@ code {
 
 /* ── HOMEPAGE ── */
 .landing-shell {
-  display: grid;
-  grid-template-rows: 1fr 44px;
   height: calc(100vh - 48px);
 }
 .l-graph-area {
@@ -144,18 +142,20 @@ code {
 .l-headline h1 em { font-style: italic; color: var(--blue); }
 .l-headline p { font-size: 0.68rem; color: var(--ink4); margin-top: 0.5rem; line-height: 1.65; }
 
-.l-bot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 1.75rem;
-  border-top: 1px solid var(--rule);
-  background: rgba(248,247,244,0.92);
+.l-hero-eq {
+  margin-top: 1.25rem;
+  opacity: 1;
+  transition: opacity 0.35s ease;
 }
-.l-bot-l { display: flex; align-items: center; gap: 0.65rem; }
-.l-eq-lbl { font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: #ccc; }
-#l-eq-out { font-size: 0.75rem; color: var(--ink2); }
-.l-bot-r { font-size: 0.65rem; color: var(--ink4); }
+.l-eq-lbl {
+  display: block;
+  font-size: 0.56rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink4);
+  margin-bottom: 0.3rem;
+}
+#l-eq-out { font-size: 0.9rem; color: var(--ink2); }
 
 /* landing tooltip */
 #l-tt {

@@ -145,7 +145,7 @@ function buildGraph(rawNodes, rawEdges, fieldsBase) {
     nSel.selectAll('foreignObject').style('opacity', d => !id || nb2.has(d.id) ? 1 : 0.18);
   }
 
-  nSel.on('mouseover', (e, d) => {
+  nSel.on('mouseover', (_e, d) => {
     setHov(d.id);
     document.getElementById('l-tt-cat').textContent = CAT[d.cat].t;
     document.getElementById('l-tt-cat').style.color  = CAT[d.cat].h;
@@ -162,7 +162,7 @@ function buildGraph(rawNodes, rawEdges, fieldsBase) {
     tt.style.top  = Math.max(y, 10) + 'px';
   })
   .on('mouseout', () => { setHov(null); tt.style.display = 'none'; })
-  .on('click', (e, d) => { window.location.href = d.url; });
+  .on('click', (_e, d) => { window.location.href = d.url; });
 
   // rotating equation display
   const EQS = [
@@ -174,14 +174,24 @@ function buildGraph(rawNodes, rawEdges, fieldsBase) {
     { l: 'SDE',                  t: 'dX_t=\\mu\\,dt+\\sigma\\,dW_t' },
   ];
   let qi = 0;
-  function showEq() {
+  function showEq(fade) {
     const q = EQS[qi++ % EQS.length];
-    document.getElementById('l-eq-lbl').textContent = q.l;
-    try { katex.render(q.t, document.getElementById('l-eq-out'), { displayMode: false, throwOnError: false }); } catch (x) {}
+    const wrap = document.getElementById('l-hero-eq');
+    function render() {
+      document.getElementById('l-eq-lbl').textContent = q.l;
+      try { katex.render(q.t, document.getElementById('l-eq-out'), { displayMode: false, throwOnError: false }); } catch (x) {}
+    }
+    if (fade && wrap) {
+      wrap.style.opacity = '0';
+      setTimeout(() => { render(); wrap.style.opacity = '1'; }, 360);
+    } else {
+      render();
+    }
   }
-  showEq();
-  if (window._eqInterval) clearInterval(window._eqInterval);
-  window._eqInterval = setInterval(showEq, 4200);
+  showEq(false);
+  const win = /** @type {any} */ (window);
+  if (win._eqInterval) clearInterval(win._eqInterval);
+  win._eqInterval = setInterval(() => showEq(true), 4200);
 }
 
 function iconClass(id) {
