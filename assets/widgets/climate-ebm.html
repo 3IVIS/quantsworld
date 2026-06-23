@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Energy Balance Model</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; font-size: 13px; background: #fafafa; color: #333; padding: 1rem; }
+  canvas { width: 100%; display: block; border-radius: 6px; border: 1px solid #e5e2db; background: #fff; margin-bottom: 1rem; }
+  .controls { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  .ctrl { display: flex; flex-direction: column; gap: 0.3rem; flex: 1; min-width: 140px; }
+  label { font-size: 0.65rem; color: #777; }
+  input[type=range] { accent-color: #1a6e34; }
+  .val { font-family: monospace; color: #1a6e34; }
+  .info { font-size: 0.65rem; color: #999; margin-top: 0.5rem; line-height: 1.5; }
+</style>
+</head>
+<body>
+<canvas id="c" height="200"></canvas>
+<div class="controls">
+  <div class="ctrl"><label>Solar constant S (W/m²): <span class="val" id="s-val">1361</span></label><input type="range" id="s-sl" min="1000" max="1800" step="1" value="1361"></div>
+  <div class="ctrl"><label>Albedo α: <span class="val" id="a-val">0.30</span></label><input type="range" id="a-sl" min="0.05" max="0.70" step="0.01" value="0.30"></div>
+  <div class="ctrl"><label>Emissivity ε: <span class="val" id="e-val">0.78</span></label><input type="range" id="e-sl" min="0.4" max="1.0" step="0.01" value="0.78"></div>
+</div>
+<div class="info" id="info"></div>
+
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const sigma = 5.67e-8;
+
+function equilTemp(S, alpha, eps) {
+  const Q = S * (1 - alpha) / 4;
+  return Math.pow(Q / (eps * sigma), 0.25) - 273.15;
+}
+
+function timeEvolution(S, alpha, eps) {
+  const C = 2e8;
+  let T = 288;
+  const Ts = [];
+  for (let i = 0; i < 500; i++) {
+    const Q = S * (1 - alpha) / 4;
+    const Fout = eps * sigma * Math.pow(T, 4);
+    T += (Q - Fout) / C * 1e7;
+    Ts.push(T - 273.15);
+  }
+  return Ts;
+}
+
+function draw() {
+  const S = +document.getElementById('s-sl').value;
+  const alpha = +document.getElementById('a-sl').value;
+  const eps = +document.getElementById('e-sl').value;
+  const Ts = timeEvolution(S, alpha, eps);
+  const Teq = equilTemp(S, alpha, eps);
+
+  const W = canvas.offsetWidth; canvas.width = W; canvas.height = 200;
+  ctx.clearRect(0, 0, W, 200);
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, 200);
+
+  const minT = Math.min(...Ts) - 2, maxT = Math.max(...Ts) + 2;
+  function toC(i, T) { return { cx: (i / (Ts.length - 1)) * W, cy: 200 - 10 - (T - minT) / (maxT - minT) * 180 }; }
+
+  ctx.beginPath(); ctx.strokeStyle = '#1a6e34'; ctx.lineWidth = 2;
+  Ts.forEach((T, i) => {
+    const { cx, cy } = toC(i, T);
+    i === 0 ? ctx.moveTo(cx, cy) : ctx.lineTo(cx, cy);
+  });
+  ctx.stroke();
+
+  const { cy: eqCy } = toC(0, Teq);
+  ctx.setLineDash([4, 4]); ctx.strokeStyle = '#b34500'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(0, eqCy); ctx.lineTo(W, eqCy); ctx.stroke();
+  ctx.setLineDash([]);
+
+  ctx.font = '11px monospace'; ctx.fillStyle = '#444';
+  ctx.fillText(`T_eq = ${Teq.toFixed(1)} °C`, 8, 16);
+
+  document.getElementById('info').textContent =
+    `Energy in: ${(S * (1 - alpha) / 4).toFixed(1)} W/m² · ` +
+    `Equilibrium: ${Teq.toFixed(1)} °C (${(Teq + 273.15).toFixed(1)} K)`;
+}
+
+draw();
+['s-sl', 'a-sl', 'e-sl'].forEach(id => {
+  const el = document.getElementById(id);
+  el.addEventListener('input', function () {
+    const valId = id.replace('sl', 'val');
+    const prec = id === 's-sl' ? 0 : 2;
+    document.getElementById(valId).textContent = parseFloat(this.value).toFixed(prec);
+    draw();
+  });
+});
+</script>
+</body>
+</html>

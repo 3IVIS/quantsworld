@@ -1,0 +1,124 @@
+<div class="art-widget">
+  <div class="art-widget-header">
+    <div class="art-widget-icon"><i class="ti ti-arrows-shuffle"></i></div>
+    <div>
+      <div class="art-widget-title">Interactive — Markov chain animator</div>
+      <div class="art-widget-sub">Click a state to set the starting position · watch the chain evolve</div>
+    </div>
+  </div>
+  <div class="widget-canvas">
+    <canvas id="mc-canvas" style="width:100%;height:180px;border-radius:6px;border:1px solid var(--rule);background:#fafafa;display:block;cursor:pointer"></canvas>
+    <div style="display:flex;gap:1rem;margin-top:0.75rem;flex-wrap:wrap;align-items:center">
+      <button id="mc-step" style="font-size:0.7rem;padding:0.3rem 0.9rem;border:1px solid var(--blue);color:var(--blue);background:transparent;border-radius:6px;cursor:pointer">Step →</button>
+      <button id="mc-run"  style="font-size:0.7rem;padding:0.3rem 0.9rem;border:1px solid var(--green);color:var(--green);background:transparent;border-radius:6px;cursor:pointer">Run</button>
+      <button id="mc-reset" style="font-size:0.7rem;padding:0.3rem 0.9rem;border:1px solid var(--rule);color:var(--ink3);background:transparent;border-radius:6px;cursor:pointer">Reset</button>
+      <span id="mc-info" style="font-size:0.7rem;font-family:var(--mono);color:var(--ink4)"></span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const canvas = document.getElementById('mc-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  const STATES = ['S₀', 'S₁', 'S₂', 'S₃'];
+  const P = [
+    [0.1, 0.6, 0.2, 0.1],
+    [0.3, 0.1, 0.5, 0.1],
+    [0.2, 0.3, 0.1, 0.4],
+    [0.4, 0.2, 0.3, 0.1],
+  ];
+
+  let current = 0, visits = [1, 0, 0, 0], running = false, timer = null;
+
+  function positions(W, H) {
+    const cx = W / 2, cy = H / 2, r = Math.min(W, H) * 0.33;
+    return STATES.map((_, i) => ({
+      x: cx + r * Math.cos((i / STATES.length) * 2 * Math.PI - Math.PI / 2),
+      y: cy + r * Math.sin((i / STATES.length) * 2 * Math.PI - Math.PI / 2),
+    }));
+  }
+
+  function draw() {
+    const W = canvas.offsetWidth; canvas.width = W;
+    const H = 180; canvas.height = H;
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = '#fafafa'; ctx.fillRect(0, 0, W, H);
+    const pos = positions(W, H);
+    const R = 22;
+
+    // edges
+    for (let i = 0; i < STATES.length; i++) {
+      for (let j = 0; j < STATES.length; j++) {
+        if (i === j || P[i][j] < 0.15) continue;
+        const { x: sx, y: sy } = pos[i], { x: tx, y: ty } = pos[j];
+        const angle = Math.atan2(ty - sy, tx - sx);
+        ctx.beginPath();
+        ctx.moveTo(sx + R * Math.cos(angle), sy + R * Math.sin(angle));
+        ctx.lineTo(tx - R * Math.cos(angle), ty - R * Math.sin(angle));
+        ctx.strokeStyle = '#ddd'; ctx.lineWidth = P[i][j] * 4; ctx.stroke();
+        // arrowhead
+        const ex = tx - R * Math.cos(angle), ey = ty - R * Math.sin(angle);
+        ctx.beginPath();
+        ctx.moveTo(ex, ey);
+        ctx.lineTo(ex - 8 * Math.cos(angle - 0.4), ey - 8 * Math.sin(angle - 0.4));
+        ctx.lineTo(ex - 8 * Math.cos(angle + 0.4), ey - 8 * Math.sin(angle + 0.4));
+        ctx.closePath(); ctx.fillStyle = '#ddd'; ctx.fill();
+      }
+    }
+
+    // nodes
+    const total = visits.reduce((a, b) => a + b, 1);
+    pos.forEach(({ x, y }, i) => {
+      const isActive = i === current;
+      ctx.beginPath(); ctx.arc(x, y, R, 0, Math.PI * 2);
+      ctx.fillStyle = isActive ? '#2348c4' : '#eef2ff';
+      ctx.strokeStyle = isActive ? '#2348c4' : '#c7d4f5';
+      ctx.lineWidth = isActive ? 2 : 1;
+      ctx.fill(); ctx.stroke();
+      ctx.font = 'bold 11px Inter,sans-serif';
+      ctx.fillStyle = isActive ? '#fff' : '#2348c4';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(STATES[i], x, y);
+      ctx.font = '9px Inter,sans-serif';
+      ctx.fillStyle = '#aaa'; ctx.textBaseline = 'top';
+      ctx.fillText((visits[i] / total * 100).toFixed(0) + '%', x, y + R + 3);
+    });
+  }
+
+  function step() {
+    const row = P[current], r = Math.random();
+    let cum = 0;
+    for (let j = 0; j < STATES.length; j++) {
+      cum += row[j];
+      if (r <= cum) { current = j; break; }
+    }
+    visits[current]++;
+    document.getElementById('mc-info').textContent = 'current: ' + STATES[current];
+    draw();
+  }
+
+  function reset() {
+    current = 0; visits = [1, 0, 0, 0];
+    document.getElementById('mc-info').textContent = '';
+    stopRun(); draw();
+  }
+
+  function stopRun() {
+    running = false;
+    clearInterval(timer);
+    document.getElementById('mc-run').textContent = 'Run';
+  }
+
+  draw();
+  document.getElementById('mc-step').addEventListener('click', step);
+  document.getElementById('mc-reset').addEventListener('click', reset);
+  document.getElementById('mc-run').addEventListener('click', function () {
+    if (running) { stopRun(); return; }
+    running = true; this.textContent = 'Stop';
+    timer = setInterval(step, 350);
+  });
+})();
+</script>

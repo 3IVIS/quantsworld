@@ -1,0 +1,103 @@
+---
+layout: default
+---
+{% assign field_data = site.data.fields | where: "slug", page.slug | first %}
+{% assign field_topics = site.topics | where: "field", page.slug | sort: "title" %}
+{% assign all_concepts = "" | split: "" %}
+{% for topic in field_topics %}
+  {% for c in topic.math_concepts %}
+    {% unless all_concepts contains c %}
+      {% assign all_concepts = all_concepts | push: c %}
+    {% endunless %}
+  {% endfor %}
+{% endfor %}
+
+<div class="field-page-shell">
+
+  <div class="fp-nav">
+    <div class="breadcrumb">
+      <a href="{{ '/' | relative_url }}">quantsworld</a>
+      <span>›</span>
+      <a href="{{ '/fields/' | relative_url }}">Fields</a>
+      <span>›</span>
+      <strong>{{ page.title }}</strong>
+    </div>
+    <div style="display:flex;gap:0.75rem;align-items:center">
+      {% if field_data %}<span class="chip chip-{{ field_data.category }}">{{ field_data.category_name }}</span>{% endif %}
+      <span style="font-size:0.7rem;color:var(--ink4)">{{ field_topics.size }} topics</span>
+    </div>
+  </div>
+
+  <div class="fp-body">
+    <div class="fp-main">
+
+      {% if field_data %}<div class="art-eyebrow">{{ field_data.category_name }}</div>{% endif %}
+      <div class="art-title">{{ page.title }}</div>
+      <div class="art-meta">
+        <span><i class="ti ti-book"></i> {{ field_topics.size }} topics</span>
+        <span><i class="ti ti-math"></i> {{ all_concepts.size }} math concepts</span>
+        {% if page.connects_to %}<span><i class="ti ti-topology-star"></i> connects to {{ page.connects_to | size }} fields</span>{% endif %}
+      </div>
+
+      {% if page.intro %}<div class="art-intro">{{ page.intro }}</div>{% endif %}
+
+      {% if field_topics.size > 0 %}
+      <div class="art-h2">Topics in this field</div>
+      <div class="topics-grid">
+        {% for topic in field_topics %}
+        <a class="topic-card" href="{{ topic.url | relative_url }}">
+          <div class="topic-card-title">{{ topic.title }}</div>
+          {% if topic.description %}<div class="topic-card-desc">{{ topic.description }}</div>{% endif %}
+          {% if topic.math_concepts %}
+          <div class="topic-card-tags">
+            {% for concept in topic.math_concepts limit:3 %}
+            <span class="chip chip-blue">{{ concept | replace: "-", " " }}</span>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </a>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {{ content }}
+
+    </div>
+
+    <div class="fp-sidebar">
+      {% if all_concepts.size > 0 %}
+      <div class="sb-section">
+        <span class="sb-label">Math concepts used</span>
+        {% for concept in all_concepts limit:8 %}
+        <a class="sb-concept" href="{{ '/concepts/' | append: concept | relative_url }}">{{ concept | replace: "-", " " | capitalize }}</a>
+        {% endfor %}
+      </div>
+      <div class="sb-divider"></div>
+      {% endif %}
+
+      {% if page.connects_to %}
+      <div class="sb-section">
+        <span class="sb-label">Connected fields</span>
+        {% for f in page.connects_to %}
+        <a class="sb-field" href="{{ '/fields/' | append: f | relative_url }}">{{ f | replace: "-", " " | capitalize }}</a>
+        {% endfor %}
+      </div>
+      <div class="sb-divider"></div>
+      {% endif %}
+
+      {% if page.difficulty %}
+      <div class="sb-section">
+        <span class="sb-label">Difficulty range</span>
+        <div style="font-size:0.68rem;color:var(--ink3);margin-bottom:0.4rem">{{ page.difficulty }}</div>
+        {% assign diff_n = page.difficulty_level | default: 3 %}
+        <div class="difficulty-bar">
+          {% for i in (1..5) %}
+          <div class="diff-pip{% if i <= diff_n %} on{% endif %}"></div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+</div>

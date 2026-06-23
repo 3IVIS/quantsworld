@@ -1,0 +1,73 @@
+<div class="art-widget">
+  <div class="art-widget-header">
+    <div class="art-widget-icon"><i class="ti ti-function"></i></div>
+    <div>
+      <div class="art-widget-title">Interactive — Normal distribution explorer</div>
+      <div class="art-widget-sub">Adjust μ and σ to see the distribution update live</div>
+    </div>
+  </div>
+  <div class="widget-canvas">
+    <div style="display:flex;gap:2rem;margin-bottom:0.75rem;flex-wrap:wrap">
+      <div style="display:flex;flex-direction:column;gap:0.3rem;flex:1;min-width:120px">
+        <label style="font-size:0.62rem;color:var(--ink3)">Mean μ: <span id="nd-mu-val" style="font-family:var(--mono);color:var(--blue)">0.0</span></label>
+        <input type="range" id="nd-mu-sl" min="-3" max="3" step="0.1" value="0" style="accent-color:var(--blue)">
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.3rem;flex:1;min-width:120px">
+        <label style="font-size:0.62rem;color:var(--ink3)">Std dev σ: <span id="nd-sig-val" style="font-family:var(--mono);color:var(--blue)">1.0</span></label>
+        <input type="range" id="nd-sig-sl" min="0.2" max="3" step="0.1" value="1" style="accent-color:var(--blue)">
+      </div>
+    </div>
+    <canvas id="nd-canvas" style="width:100%;height:140px;border-radius:6px;border:1px solid var(--rule);background:#fafafa;display:block"></canvas>
+  </div>
+</div>
+
+<script>
+(function () {
+  const canvas = document.getElementById('nd-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let mu = 0, sigma = 1;
+
+  function norm(x) {
+    return (1 / (sigma * Math.sqrt(2 * Math.PI))) * Math.exp(-0.5 * ((x - mu) / sigma) ** 2);
+  }
+
+  function draw() {
+    const W = canvas.offsetWidth; canvas.width = W;
+    const H = 140; canvas.height = H;
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = '#fafafa'; ctx.fillRect(0, 0, W, H);
+    const xmin = -6, xmax = 6;
+    function toC(x, y) { return { cx: (x - xmin) / (xmax - xmin) * W, cy: H - 10 - y * (H - 20) / 0.45 }; }
+    ctx.beginPath();
+    for (let i = 0; i <= 300; i++) {
+      const x = xmin + i / 300 * (xmax - xmin);
+      const { cx, cy } = toC(x, norm(x));
+      i === 0 ? ctx.moveTo(cx, cy) : ctx.lineTo(cx, cy);
+    }
+    ctx.lineTo(W, H); ctx.lineTo(0, H); ctx.closePath();
+    ctx.fillStyle = 'rgba(35,72,196,0.1)'; ctx.fill();
+    ctx.beginPath(); ctx.strokeStyle = '#2348c4'; ctx.lineWidth = 2;
+    for (let i = 0; i <= 300; i++) {
+      const x = xmin + i / 300 * (xmax - xmin);
+      const { cx, cy } = toC(x, norm(x));
+      i === 0 ? ctx.moveTo(cx, cy) : ctx.lineTo(cx, cy);
+    }
+    ctx.stroke();
+    const { cx: mcx } = toC(mu, 0);
+    ctx.strokeStyle = '#888'; ctx.lineWidth = 1; ctx.setLineDash([3, 3]);
+    ctx.beginPath(); ctx.moveTo(mcx, 10); ctx.lineTo(mcx, H - 10); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.font = '11px JetBrains Mono,monospace'; ctx.fillStyle = '#444';
+    ctx.fillText('μ=' + mu.toFixed(1) + ', σ=' + sigma.toFixed(1), 8, 16);
+  }
+
+  draw();
+  document.getElementById('nd-mu-sl').addEventListener('input', function () {
+    mu = +this.value; document.getElementById('nd-mu-val').textContent = mu.toFixed(1); draw();
+  });
+  document.getElementById('nd-sig-sl').addEventListener('input', function () {
+    sigma = +this.value; document.getElementById('nd-sig-val').textContent = sigma.toFixed(1); draw();
+  });
+})();
+</script>

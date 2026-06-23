@@ -1,0 +1,71 @@
+{% if page.math_concepts %}
+<div class="sb-section">
+  <span class="sb-label">Math concepts used</span>
+  {% for concept in page.math_concepts %}
+  <a class="sb-concept" href="{{ '/concepts/' | append: concept | relative_url }}">{{ concept | replace: "-", " " | capitalize }}</a>
+  {% endfor %}
+</div>
+<div class="sb-divider"></div>
+{% endif %}
+
+{% if page.math_concepts %}
+{% assign same_math_topics = "" | split: "" %}
+{% for concept in page.math_concepts %}
+  {% assign matches = site.topics | where_exp: "t", "t.math_concepts contains concept" %}
+  {% for t in matches %}
+    {% unless t.url == page.url %}
+      {% unless same_math_topics contains t %}
+        {% assign same_math_topics = same_math_topics | push: t %}
+      {% endunless %}
+    {% endunless %}
+  {% endfor %}
+{% endfor %}
+{% if same_math_topics.size > 0 %}
+<div class="sb-section">
+  <span class="sb-label">Same math, other fields</span>
+  {% for t in same_math_topics limit:5 %}
+    {% unless t.field == page.field %}
+    <a class="sb-field" href="{{ t.url | relative_url }}">
+      {{ t.field | replace: "-", " " | capitalize }} › {{ t.title }}
+    </a>
+    {% endunless %}
+  {% endfor %}
+</div>
+<div class="sb-divider"></div>
+{% endif %}
+{% endif %}
+
+{% if page.difficulty %}
+<div class="sb-section">
+  <span class="sb-label">Difficulty</span>
+  <div style="font-size:0.68rem;color:var(--ink3);margin-bottom:0.4rem">{{ page.difficulty | capitalize }}</div>
+  {% assign diff_n = page.difficulty_level | default: 3 %}
+  <div class="difficulty-bar">
+    {% for i in (1..5) %}
+    <div class="diff-pip{% if i <= diff_n %} on{% endif %}"></div>
+    {% endfor %}
+  </div>
+</div>
+<div class="sb-divider"></div>
+{% endif %}
+
+{% assign field_topics = site.topics | where: "field", page.field | sort: "title" %}
+{% if field_topics.size > 1 %}
+<div class="sb-section">
+  <span class="sb-label">More in {{ page.field | replace: "-", " " | capitalize }}</span>
+  {% for t in field_topics limit:4 %}
+    {% unless t.url == page.url %}
+    <a class="sb-widget-link" href="{{ t.url | relative_url }}">{{ t.title }} →</a>
+    {% endunless %}
+  {% endfor %}
+</div>
+<div class="sb-divider"></div>
+{% endif %}
+
+<div class="sb-section">
+  <span class="sb-label">Edit this page</span>
+  <a class="sb-concept" href="https://github.com/3IVIS/quantsworld/edit/main/_topics/{{ page.field }}/{{ page.slug }}.md"
+     target="_blank" rel="noopener" style="display:flex;align-items:center;gap:0.4rem">
+    <i class="ti ti-brand-github" style="font-size:12px"></i> Open PR on GitHub
+  </a>
+</div>

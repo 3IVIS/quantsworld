@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% if page.title %}{{ page.title }} — quantsworld{% else %}quantsworld — The math that connects every science{% endif %}</title>
+{% seo %}
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBK1QNY7NJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-HBK1QNY7NJ');
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+{% if page.extra_css %}{% for css in page.extra_css %}<link rel="stylesheet" href="{{ css | relative_url }}">{% endfor %}{% endif %}
+</head>
+<body>
+
+<nav class="topnav">
+  <a class="logo" href="{{ '/' | relative_url }}">quants<em>world</em></a>
+  <div class="nav-links">
+    <a href="{{ '/fields/' | relative_url }}">Fields</a>
+    <a href="{{ '/concepts/' | relative_url }}">Math index</a>
+    <a href="{{ '/contribute/' | relative_url }}">Contribute</a>
+  </div>
+</nav>
+
+<main>
+{{ content }}
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <span class="footer-logo">quants<em>world</em></span>
+    <div class="footer-links">
+      <a href="{{ '/impressum/' | relative_url }}">Impressum</a>
+      <a href="{{ '/privacy/' | relative_url }}">Privacy</a>
+      <a href="{{ '/contribute/' | relative_url }}">Contribute</a>
+    </div>
+    <span class="footer-note">open source · quantsworld.com</span>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  renderMathInElement(document.body, {
+    delimiters: [
+      { left: '$$', right: '$$', display: true },
+      { left: '$', right: '$', display: false },
+      { left: '\\(', right: '\\)', display: false },
+      { left: '\\[', right: '\\]', display: true }
+    ],
+    throwOnError: false
+  });
+});
+</script>
+{% if page.extra_js %}{% for js in page.extra_js %}<script src="{{ js | relative_url }}"></script>{% endfor %}{% endif %}
+</body>
+</html>

@@ -1,0 +1,66 @@
+---
+layout: default
+---
+{% assign field_data = site.data.fields | where: "slug", page.field | first %}
+
+<div class="field-page-shell">
+
+  <div class="fp-nav">
+    <div class="breadcrumb">
+      <a href="{{ '/' | relative_url }}">quantsworld</a>
+      <span>›</span>
+      <a href="{{ '/fields/' | append: page.field | relative_url }}">{{ page.field | replace: "-", " " | capitalize }}</a>
+      <span>›</span>
+      <strong>{{ page.title }}</strong>
+    </div>
+    <div style="display:flex;gap:0.75rem;align-items:center">
+      {% if page.difficulty %}<span class="chip chip-blue">{{ page.difficulty }}</span>{% endif %}
+      {% if page.read_time %}<span style="font-size:0.7rem;color:var(--ink4)">{{ page.read_time }} min read</span>{% endif %}
+    </div>
+  </div>
+
+  <div class="fp-body">
+    <div class="fp-main">
+
+      {% if field_data %}<div class="art-eyebrow">{{ field_data.category_name }} · Topic</div>{% endif %}
+      <div class="art-title">{{ page.title }}</div>
+
+      {% if page.math_concepts %}
+      <div class="art-meta">
+        <span><i class="ti ti-math"></i>
+          {% for c in page.math_concepts %}{{ c | replace: "-", " " }}{% unless forloop.last %} · {% endunless %}{% endfor %}
+        </span>
+      </div>
+      {% endif %}
+
+      {% if page.intro %}<div class="art-intro">{{ page.intro }}</div>{% endif %}
+
+      {{ content }}
+
+      {% if page.widget %}
+        {% if page.widget.type == "include" %}
+          {% include widgets/{{ page.widget.file }} %}
+        {% elsif page.widget.type == "iframe" %}
+        <div class="art-widget">
+          <div class="art-widget-header">
+            <div class="art-widget-icon"><i class="ti ti-adjustments"></i></div>
+            <div>
+              <div class="art-widget-title">{{ page.widget.title | default: "Interactive simulation" }}</div>
+              <div class="art-widget-sub">Sandboxed widget</div>
+            </div>
+          </div>
+          <iframe src="{{ '/assets/widgets/' | append: page.widget.file | relative_url }}"
+                  style="width:100%;height:{{ page.widget.height | default: '360px' }};border:none;border-radius:8px;"
+                  loading="lazy"></iframe>
+        </div>
+        {% endif %}
+      {% endif %}
+
+    </div>
+
+    <div class="fp-sidebar">
+      {% include math-sidebar.html %}
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,69 @@
+title: "quantsworld"
+description: "The math that connects every science"
+url: "https://quantsworld.com"
+baseurl: ""
+author: "3IVIS"
+github_username: 3IVIS
+repository: 3IVIS/quantsworld
+lang: en
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  input: GFM
+  math_engine: null
+
+# Collections
+collections:
+  fields:
+    output: true
+    permalink: /fields/:slug/
+  topics:
+    output: true
+    permalink: /fields/:path/
+  concepts:
+    output: true
+    permalink: /concepts/:slug/
+
+# Front-matter defaults
+defaults:
+  - scope:
+      path: ""
+      type: "fields"
+    values:
+      layout: "field"
+  - scope:
+      path: ""
+      type: "topics"
+    values:
+      layout: "topic"
+  - scope:
+      path: ""
+      type: "concepts"
+    values:
+      layout: "concept"
+  - scope:
+      path: ""
+    values:
+      layout: "default"
+
+# Plugins (all supported by github-pages gem)
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# SEO / feed
+feed:
+  path: feed.xml
+
+# Exclude from build
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .bundle
+  - plan/
+  - README.md

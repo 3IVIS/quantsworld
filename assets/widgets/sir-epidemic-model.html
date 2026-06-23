@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIR Epidemic Model</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; font-size: 13px; background: #fafafa; color: #333; padding: 1rem; }
+  canvas { width: 100%; display: block; border-radius: 6px; border: 1px solid #e5e2db; background: #fff; margin-bottom: 1rem; }
+  .controls { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  .ctrl { display: flex; flex-direction: column; gap: 0.3rem; flex: 1; min-width: 120px; }
+  label { font-size: 0.65rem; color: #777; }
+  input[type=range] { accent-color: #2348c4; }
+  .val { font-family: monospace; color: #2348c4; }
+  .legend { display: flex; gap: 1.25rem; font-size: 0.65rem; margin-top: 0.5rem; }
+  .leg-item { display: flex; align-items: center; gap: 0.4rem; }
+  .leg-dot { width: 10px; height: 10px; border-radius: 50%; }
+</style>
+</head>
+<body>
+<canvas id="c" height="200"></canvas>
+<div class="controls">
+  <div class="ctrl"><label>β (transmission): <span class="val" id="b-val">0.30</span></label><input type="range" id="b-sl" min="0.05" max="0.8" step="0.01" value="0.30"></div>
+  <div class="ctrl"><label>γ (recovery): <span class="val" id="g-val">0.10</span></label><input type="range" id="g-sl" min="0.01" max="0.4" step="0.01" value="0.10"></div>
+  <div class="ctrl"><label>I₀ (initial infected): <span class="val" id="i-val">0.001</span></label><input type="range" id="i-sl" min="0.0001" max="0.05" step="0.0001" value="0.001"></div>
+</div>
+<div class="legend">
+  <div class="leg-item"><div class="leg-dot" style="background:#2348c4"></div>Susceptible (S)</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#b34500"></div>Infected (I)</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#0a7a5e"></div>Recovered (R)</div>
+</div>
+
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+
+function runSIR(beta, gamma, I0) {
+  const N = 1000, dt = 0.1;
+  let S = N * (1 - I0), I = N * I0, R = 0;
+  const traj = [];
+  for (let t = 0; t < 400; t++) {
+    traj.push({ S: S / N, I: I / N, R: R / N });
+    const dS = -beta * S * I / N;
+    const dI = beta * S * I / N - gamma * I;
+    const dR = gamma * I;
+    S += dS * dt; I += dI * dt; R += dR * dt;
+  }
+  return traj;
+}
+
+function draw() {
+  const beta = +document.getElementById('b-sl').value;
+  const gamma = +document.getElementById('g-sl').value;
+  const I0 = +document.getElementById('i-sl').value;
+  const traj = runSIR(beta, gamma, I0);
+
+  const W = canvas.offsetWidth; canvas.width = W; canvas.height = 200;
+  ctx.clearRect(0, 0, W, 200);
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, 200);
+
+  function toC(i, val) { return { cx: (i / (traj.length - 1)) * W, cy: 200 - 10 - val * 180 }; }
+
+  [
+    { key: 'S', color: '#2348c4' },
+    { key: 'I', color: '#b34500' },
+    { key: 'R', color: '#0a7a5e' },
+  ].forEach(({ key, color }) => {
+    ctx.beginPath(); ctx.strokeStyle = color; ctx.lineWidth = 2;
+    traj.forEach((pt, i) => {
+      const { cx, cy } = toC(i, pt[key]);
+      i === 0 ? ctx.moveTo(cx, cy) : ctx.lineTo(cx, cy);
+    });
+    ctx.stroke();
+  });
+
+  const R0 = (beta / gamma).toFixed(2);
+  ctx.font = '11px monospace'; ctx.fillStyle = '#444';
+  ctx.fillText(`R₀ = β/γ = ${R0}`, 8, 16);
+}
+
+draw();
+['b-sl', 'g-sl', 'i-sl'].forEach(id => {
+  const el = document.getElementById(id);
+  el.addEventListener('input', function () {
+    document.getElementById(id.replace('sl', 'val')).textContent = parseFloat(this.value).toFixed(id === 'i-sl' ? 4 : 2);
+    draw();
+  });
+});
+</script>
+</body>
+</html>

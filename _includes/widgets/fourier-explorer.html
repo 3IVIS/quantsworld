@@ -1,0 +1,84 @@
+<div class="art-widget">
+  <div class="art-widget-header">
+    <div class="art-widget-icon"><i class="ti ti-wave-sine"></i></div>
+    <div>
+      <div class="art-widget-title">Interactive — Fourier series builder</div>
+      <div class="art-widget-sub">Add harmonics to see how they sum to a complex wave</div>
+    </div>
+  </div>
+  <div class="widget-canvas">
+    <div style="display:flex;gap:1.5rem;margin-bottom:0.75rem;flex-wrap:wrap">
+      <div style="display:flex;flex-direction:column;gap:0.3rem;flex:1;min-width:120px">
+        <label style="font-size:0.62rem;color:var(--ink3)">Harmonics: <span id="fe-n-val" style="font-family:var(--mono);color:var(--blue)">1</span></label>
+        <input type="range" id="fe-n-sl" min="1" max="15" step="1" value="1" style="accent-color:var(--blue)">
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.3rem;flex:1;min-width:140px">
+        <label style="font-size:0.62rem;color:var(--ink3)">Wave type:</label>
+        <select id="fe-type" style="font-size:0.7rem;border:1px solid var(--rule);border-radius:4px;padding:0.2rem;background:white">
+          <option value="square">Square wave</option>
+          <option value="sawtooth">Sawtooth</option>
+          <option value="triangle">Triangle</option>
+        </select>
+      </div>
+    </div>
+    <canvas id="fe-canvas" style="width:100%;height:130px;border-radius:6px;border:1px solid var(--rule);background:#fafafa;display:block"></canvas>
+  </div>
+</div>
+
+<script>
+(function () {
+  const canvas = document.getElementById('fe-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let N = 1, waveType = 'square';
+
+  function seriesValue(t) {
+    let y = 0;
+    if (waveType === 'square') {
+      for (let k = 1; k <= N; k++) {
+        const n = 2 * k - 1;
+        y += (4 / Math.PI) * (1 / n) * Math.sin(n * t);
+      }
+    } else if (waveType === 'sawtooth') {
+      for (let k = 1; k <= N; k++) {
+        y += (2 / Math.PI) * (k % 2 === 0 ? -1 : 1) / k * Math.sin(k * t);
+      }
+    } else {
+      for (let k = 1; k <= N; k++) {
+        const n = 2 * k - 1;
+        y += (8 / (Math.PI * Math.PI)) * (k % 2 === 0 ? -1 : 1) / (n * n) * Math.sin(n * t);
+      }
+    }
+    return y;
+  }
+
+  function draw() {
+    const W = canvas.offsetWidth; canvas.width = W;
+    const H = 130; canvas.height = H;
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = '#fafafa'; ctx.fillRect(0, 0, W, H);
+    ctx.strokeStyle = '#e5e2db'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(0, H / 2); ctx.lineTo(W, H / 2); ctx.stroke();
+    const steps = 400;
+    ctx.beginPath(); ctx.strokeStyle = '#2348c4'; ctx.lineWidth = 1.8;
+    for (let i = 0; i <= steps; i++) {
+      const t = (i / steps) * 2 * Math.PI * 2;
+      const y = seriesValue(t);
+      const cx = (i / steps) * W;
+      const cy = H / 2 - y * (H / 2 - 10);
+      i === 0 ? ctx.moveTo(cx, cy) : ctx.lineTo(cx, cy);
+    }
+    ctx.stroke();
+    ctx.font = '10px JetBrains Mono,monospace'; ctx.fillStyle = '#2348c4';
+    ctx.fillText('N=' + N + ' harmonics', 8, 14);
+  }
+
+  draw();
+  document.getElementById('fe-n-sl').addEventListener('input', function () {
+    N = +this.value; document.getElementById('fe-n-val').textContent = N; draw();
+  });
+  document.getElementById('fe-type').addEventListener('change', function () {
+    waveType = this.value; draw();
+  });
+})();
+</script>

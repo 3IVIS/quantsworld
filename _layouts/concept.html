@@ -1,0 +1,97 @@
+---
+layout: default
+---
+{% assign concept_slug = page.slug %}
+{% assign using_topics = site.topics | where_exp: "t", "t.math_concepts contains concept_slug" | sort: "field" %}
+{% assign using_fields = using_topics | map: "field" | uniq %}
+
+<div class="field-page-shell">
+
+  <div class="fp-nav">
+    <div class="breadcrumb">
+      <a href="{{ '/' | relative_url }}">quantsworld</a>
+      <span>›</span>
+      <a href="{{ '/concepts/' | relative_url }}">Math index</a>
+      <span>›</span>
+      <strong>{{ page.title }}</strong>
+    </div>
+    <div style="display:flex;gap:0.75rem;align-items:center">
+      <span class="chip chip-purple">math concept</span>
+      <span style="font-size:0.7rem;color:var(--ink4)">{{ using_topics.size }} topics use this</span>
+    </div>
+  </div>
+
+  <div class="fp-body">
+    <div class="fp-main">
+
+      <div class="art-eyebrow">Math concept</div>
+      <div class="art-title">{{ page.title }}</div>
+
+      {% if page.equation %}
+      <div class="art-eq">
+        <div class="art-eq-label">Core equation</div>
+        <div>$${{ page.equation }}$$</div>
+      </div>
+      {% endif %}
+
+      {% if page.intro %}<div class="art-intro">{{ page.intro }}</div>{% endif %}
+
+      {{ content }}
+
+      {% if using_topics.size > 0 %}
+      <div class="art-h2">Fields that use this concept</div>
+      {% assign prev_field = "" %}
+      {% for topic in using_topics %}
+        {% if topic.field != prev_field %}
+          {% unless forloop.first %}</div>{% endunless %}
+          {% assign field_info = site.data.fields | where: "slug", topic.field | first %}
+          <div class="art-h2" style="font-size:1rem;margin-top:1.25rem">
+            {% if field_info %}<span class="chip chip-{{ field_info.category }}" style="margin-right:0.5rem">{{ field_info.category_name }}</span>{% endif %}
+            <a href="{{ '/fields/' | append: topic.field | relative_url }}" style="color:var(--ink);text-decoration:none">{{ topic.field | replace: "-", " " | capitalize }}</a>
+          </div>
+          <div class="topics-grid">
+          {% assign prev_field = topic.field %}
+        {% endif %}
+        <a class="topic-card" href="{{ topic.url | relative_url }}">
+          <div class="topic-card-title">{{ topic.title }}</div>
+          {% if topic.description %}<div class="topic-card-desc">{{ topic.description }}</div>{% endif %}
+        </a>
+        {% if forloop.last %}</div>{% endif %}
+      {% endfor %}
+      {% endif %}
+
+    </div>
+
+    <div class="fp-sidebar">
+      <div class="sb-section">
+        <span class="sb-label">Appears in fields</span>
+        {% for f in using_fields %}
+        <a class="sb-field" href="{{ '/fields/' | append: f | relative_url }}">{{ f | replace: "-", " " | capitalize }}</a>
+        {% endfor %}
+      </div>
+      {% if page.related_concepts %}
+      <div class="sb-divider"></div>
+      <div class="sb-section">
+        <span class="sb-label">Related concepts</span>
+        {% for c in page.related_concepts %}
+        <a class="sb-concept" href="{{ '/concepts/' | append: c | relative_url }}">{{ c | replace: "-", " " | capitalize }}</a>
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% if page.difficulty %}
+      <div class="sb-divider"></div>
+      <div class="sb-section">
+        <span class="sb-label">Difficulty</span>
+        <div style="font-size:0.68rem;color:var(--ink3);margin-bottom:0.4rem">{{ page.difficulty }}</div>
+        {% assign diff_n = page.difficulty_level | default: 3 %}
+        <div class="difficulty-bar">
+          {% for i in (1..5) %}
+          <div class="diff-pip{% if i <= diff_n %} on{% endif %}"></div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+</div>

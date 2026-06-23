@@ -1,0 +1,21 @@
+---
+layout: default
+title: "quantsworld — The math that connects every science"
+---
+
+<!-- Inject data from Jekyll into JS scope -->
+<script>
+const GRAPH_NODES  = {{ site.data.fields | jsonify }};
+const GRAPH_EDGES  = {{ site.data.connections | jsonify }};
+const GRAPH_FIELDS_BASE = '{{ "/fields/" | relative_url }}';
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+
+{% include graph.html %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  buildGraph(GRAPH_NODES, GRAPH_EDGES, GRAPH_FIELDS_BASE);
+});
+</script>

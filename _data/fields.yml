@@ -1,0 +1,243 @@
+# All 20 fields. id = short graph node ID, slug = URL slug.
+# category values: cs | finance | life | physics | earth | social
+# category_name must match CAT in graph.js
+
+- id: ml
+  name: Machine learning
+  slug: machine-learning
+  category: cs
+  category_name: Engineering & CS
+  icon: ti-cpu
+  size: 1.35
+  equation: '\mathcal{L}=-\sum y_i\log\hat{y}_i'
+  description: >
+    Statistical learning algorithms that improve through experience.
+    Bridges probability theory, linear algebra, and optimization.
+
+- id: qf
+  name: Quant finance
+  slug: quant-finance
+  category: finance
+  category_name: Finance & economics
+  icon: ti-chart-line
+  size: 1.15
+  equation: 'dS=\mu S\,dt+\sigma S\,dW_t'
+  description: >
+    Mathematical models for pricing derivatives, managing risk,
+    and constructing portfolios. Built on stochastic calculus and PDEs.
+
+- id: bio
+  name: Biostatistics
+  slug: biostatistics
+  category: life
+  category_name: Life sciences
+  icon: ti-activity
+  size: 1.1
+  equation: 'S(t)=e^{-\int_0^t\lambda\,du}'
+  description: >
+    Application of statistical methods to biological and medical data.
+    Drives clinical trial design, epidemiology, and genomics.
+
+- id: econ
+  name: Econometrics
+  slug: econometrics
+  category: finance
+  category_name: Finance & economics
+  icon: ti-building-bank
+  size: 1.05
+  equation: '\hat\beta=(X^\top X)^{-1}X^\top y'
+  description: >
+    Statistical methods applied to economic data to test theories
+    and estimate causal relationships.
+
+- id: qc
+  name: Quantum computing
+  slug: quantum-computing
+  category: physics
+  category_name: Physical sciences
+  icon: ti-atom
+  size: 1.05
+  equation: 'U|\psi\rangle=e^{-iHt/\hbar}|\psi\rangle'
+  description: >
+    Computation exploiting quantum-mechanical phenomena such as
+    superposition and entanglement.
+
+- id: bi
+  name: Bioinformatics
+  slug: bioinformatics
+  category: life
+  category_name: Life sciences
+  icon: ti-dna
+  size: 1.05
+  equation: '\Pr(\pi|x)\propto\Pr(x|\pi)\Pr(\pi)'
+  description: >
+    Computational methods for analysing biological sequence data,
+    gene expression, and molecular structures.
+
+- id: astro
+  name: Astrophysics
+  slug: astrophysics
+  category: physics
+  category_name: Physical sciences
+  icon: ti-planet
+  size: 0.95
+  equation: 'H^2=\tfrac{8\pi G}{3}\rho'
+  description: >
+    Physics of celestial objects and the universe at large scales.
+    Spans from stellar structure to cosmological models.
+
+- id: sig
+  name: Signal processing
+  slug: signal-processing
+  category: cs
+  category_name: Engineering & CS
+  icon: ti-wave-sine
+  size: 0.95
+  equation: 'X[k]=\sum_n x[n]e^{-2\pi ikn/N}'
+  description: >
+    Analysis, transformation, and synthesis of signals.
+    The Fourier transform is its central tool.
+
+- id: or
+  name: Ops research
+  slug: operations-research
+  category: cs
+  category_name: Engineering & CS
+  icon: ti-route
+  size: 0.9
+  equation: '\min c^\top x\text{ s.t. }Ax=b'
+  description: >
+    Mathematical optimisation of complex systems and decision processes.
+    Includes linear programming, scheduling, and network flow.
+
+- id: act
+  name: Actuarial science
+  slug: actuarial-science
+  category: finance
+  category_name: Finance & economics
+  icon: ti-shield-check
+  size: 0.9
+  equation: 'A_x=\sum_k v^{k+1}{}_kp_x q_{x+k}'
+  description: >
+    Mathematical assessment of financial risk in insurance and pension.
+    Combines probability theory, life tables, and financial mathematics.
+
+- id: clim
+  name: Climate modeling
+  slug: climate-modeling
+  category: earth
+  category_name: Earth sciences
+  icon: ti-cloud-storm
+  size: 0.9
+  equation: '\partial_t T=\kappa\nabla^2 T+Q'
+  description: >
+    Mathematical models of the Earth's climate system.
+    Relies on PDEs, fluid dynamics, and statistical physics.
+
+- id: crypt
+  name: Cryptography
+  slug: cryptography
+  category: cs
+  category_name: Engineering & CS
+  icon: ti-lock
+  size: 0.85
+  equation: 'c\equiv m^e\pmod{n}'
+  description: >
+    Mathematical techniques for securing information.
+    Draws on number theory, abstract algebra, and complexity theory.
+
+- id: rob
+  name: Robotics
+  slug: robotics
+  category: cs
+  category_name: Engineering & CS
+  icon: ti-robot
+  size: 0.85
+  equation: 'p(x_t|z_{1:t})\propto p(z_t|x_t)p(x_t|x_{t-1})'
+  description: >
+    Algorithms for perception, planning, and control of physical agents.
+    Connects probability, linear algebra, and optimisation.
+
+- id: eco
+  name: Quant ecology
+  slug: quant-ecology
+  category: life
+  category_name: Life sciences
+  icon: ti-leaf
+  size: 0.8
+  equation: '\dot N=rN(1-N/K)'
+  description: >
+    Mathematical models of ecological dynamics, from population
+    growth to food webs and ecosystem stability.
+
+- id: qgen
+  name: Quant genetics
+  slug: quant-genetics
+  category: life
+  category_name: Life sciences
+  icon: ti-dna-2
+  size: 0.8
+  equation: 'V_P=V_A+V_D+V_E'
+  description: >
+    Statistical genetics connecting genotype to phenotype.
+    Underpins GWAS, heritability estimation, and breeding programmes.
+
+- id: met
+  name: Meteorology
+  slug: meteorology
+  category: earth
+  category_name: Earth sciences
+  icon: ti-wind
+  size: 0.8
+  equation: '\tfrac{D\mathbf v}{Dt}=-\tfrac{\nabla p}{\rho}+\mathbf g'
+  description: >
+    Mathematical description of atmospheric dynamics.
+    Combines fluid mechanics, thermodynamics, and numerical methods.
+
+- id: psych
+  name: Psychometrics
+  slug: psychometrics
+  category: social
+  category_name: Social sciences
+  icon: ti-brain
+  size: 0.78
+  equation: 'P(X=1)=\tfrac{e^{\theta-b}}{1+e^{\theta-b}}'
+  description: >
+    Mathematical measurement of psychological attributes.
+    Item response theory and factor analysis are its core tools.
+
+- id: geo
+  name: Geophysics
+  slug: geophysics
+  category: earth
+  category_name: Earth sciences
+  icon: ti-mountain
+  size: 0.75
+  equation: '\nabla^2\phi=v^{-2}\ddot\phi'
+  description: >
+    Physics of the Earth's interior and surface processes.
+    Seismology, gravity, and geomagnetism rest on wave equations and PDEs.
+
+- id: gam
+  name: Game theory
+  slug: game-theory
+  category: social
+  category_name: Social sciences
+  icon: ti-chess
+  size: 0.75
+  equation: 'u_i(\sigma^*_i,\sigma^*_{-i})\ge u_i(\sigma_i,\sigma^*_{-i})'
+  description: >
+    Mathematical models of strategic interaction.
+    Connects optimisation, probability, and economics.
+
+- id: chem
+  name: Comp. chemistry
+  slug: computational-chemistry
+  category: physics
+  category_name: Physical sciences
+  icon: ti-flask
+  size: 0.75
+  equation: 'E=\langle\Psi|H|\Psi\rangle/\langle\Psi|\Psi\rangle'
+  description: >
+    Computational methods for solving the electronic structure problem.
+    Density functional theory and quantum chemistry dominate.
