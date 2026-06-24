@@ -119,6 +119,7 @@ code {
   height: calc(100vh - 48px);
 }
 .l-graph-area {
+  height: 100%;
   position: relative;
   overflow: hidden;
 }
