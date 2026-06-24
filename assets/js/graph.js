@@ -47,6 +47,7 @@ function buildGraph(rawNodes, rawEdges, fieldsBase) {
   });
 
   const svg = d3.select('#landing-svg');
+  svg.attr('width', W).attr('height', H);
   svg.selectAll('*').remove();
 
   const defs = svg.append('defs');

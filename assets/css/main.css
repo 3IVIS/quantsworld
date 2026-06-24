@@ -384,32 +384,21 @@ code {
   .fields-grid { grid-template-columns: 1fr 1fr; }
   .nav-links { gap: 1rem; }
 
-  /* Stack hero above graph on mobile using grid rows */
-  .l-graph-area {
-    display: grid;
-    grid-template-rows: auto 1fr;
-    grid-template-columns: 1fr;
-  }
+  /* Stack hero above graph on mobile */
+  .l-graph-area { display: flex; flex-direction: column; }
   .l-headline {
-    grid-row: 1;
-    grid-column: 1;
-    position: relative;
-    top: auto;
-    left: auto;
-    transform: none;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    flex-shrink: 0;
     text-align: center;
     max-width: 100%;
     padding: 0.6rem 1.25rem 0.4rem;
     pointer-events: auto;
-    z-index: 5;
   }
   .l-headline h1 { font-size: 1.3rem; }
   .l-headline p  { font-size: 0.62rem; }
   .l-hero-eq { display: none; }
-  #landing-svg {
-    grid-row: 2;
-    grid-column: 1;
-    width: 100%;
-    height: 100%;
-  }
+  #landing-svg { flex: 1; min-height: 0; }
 }
