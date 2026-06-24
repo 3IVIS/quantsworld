@@ -383,12 +383,29 @@ code {
   .topics-grid { grid-template-columns: 1fr; }
   .fields-grid { grid-template-columns: 1fr 1fr; }
   .nav-links { gap: 1rem; }
-  .l-headline {
-    top: 1.25rem;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-    max-width: 90vw;
+
+  /* Stack hero text above graph on mobile */
+  .l-graph-area {
+    display: flex;
+    flex-direction: column;
   }
-  .l-headline h1 { font-size: 1.4rem; }
+  .l-headline {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    text-align: center;
+    max-width: 100%;
+    padding: 0.6rem 1.25rem 0.4rem;
+    flex-shrink: 0;
+    pointer-events: auto;
+  }
+  .l-headline h1 { font-size: 1.3rem; }
+  .l-headline p  { font-size: 0.62rem; }
+  .l-hero-eq { display: none; }
+  #landing-svg {
+    flex: 1;
+    min-height: 0;
+    height: auto;
+  }
 }
