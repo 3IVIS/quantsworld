@@ -1,0 +1,104 @@
+{% assign _base = site.url %}
+{% if page.layout == 'topic' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "LearningResource",
+      "name": {{ page.title | jsonify }},
+      "description": {{ page.description | jsonify }},
+      "abstract": {{ page.intro | strip_newlines | jsonify }},
+      "url": "{{ _base }}{{ page.url }}",
+      "educationalLevel": {{ page.difficulty | jsonify }},
+      "timeRequired": "PT{{ page.read_time | default: 8 }}M",
+      "learningResourceType": "article",
+      "inLanguage": "en",
+      "about": {
+        "@type": "Thing",
+        "name": {{ page.field | replace: "-", " " | capitalize | jsonify }}
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "quantsworld",
+        "url": {{ _base | jsonify }}
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "quantsworld",
+        "url": {{ _base | jsonify }}
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "quantsworld", "item": {{ _base | jsonify }} },
+        { "@type": "ListItem", "position": 2, "name": {{ page.field | replace: "-", " " | capitalize | jsonify }}, "item": "{{ _base }}/fields/{{ page.field }}/" },
+        { "@type": "ListItem", "position": 3, "name": {{ page.title | jsonify }} }
+      ]
+    }
+  ]
+}
+</script>
+{% elsif page.layout == 'concept' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "DefinedTerm",
+      "name": {{ page.title | jsonify }},
+      "description": {{ page.intro | strip_newlines | jsonify }},
+      "url": "{{ _base }}{{ page.url }}",
+      "inLanguage": "en",
+      "inDefinedTermSet": {
+        "@type": "DefinedTermSet",
+        "name": "quantsworld Math Concepts",
+        "url": "{{ _base }}/concepts/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "quantsworld", "item": {{ _base | jsonify }} },
+        { "@type": "ListItem", "position": 2, "name": "Math concepts", "item": "{{ _base }}/concepts/" },
+        { "@type": "ListItem", "position": 3, "name": {{ page.title | jsonify }} }
+      ]
+    }
+  ]
+}
+</script>
+{% elsif page.layout == 'field' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "name": {{ page.title | append: " — quantsworld" | jsonify }},
+      "description": {{ page.description | strip_newlines | jsonify }},
+      "url": "{{ _base }}{{ page.url }}",
+      "inLanguage": "en"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "quantsworld", "item": {{ _base | jsonify }} },
+        { "@type": "ListItem", "position": 2, "name": "Fields", "item": "{{ _base }}/fields/" },
+        { "@type": "ListItem", "position": 3, "name": {{ page.title | jsonify }} }
+      ]
+    }
+  ]
+}
+</script>
+{% else %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "quantsworld",
+  "description": "The math that connects every science",
+  "url": {{ _base | jsonify }}
+}
+</script>
+{% endif %}

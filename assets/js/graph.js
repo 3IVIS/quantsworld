@@ -183,7 +183,11 @@ function buildGraph(rawNodes, rawEdges, fieldsBase) {
     }
     if (fade && wrap) {
       wrap.style.opacity = '0';
-      setTimeout(() => { render(); wrap.style.opacity = '1'; }, 360);
+      setTimeout(() => {
+        render();
+        void wrap.offsetHeight; // force reflow so fade-in is a fresh transition
+        wrap.style.opacity = '1';
+      }, 420);
     } else {
       render();
     }

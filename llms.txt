@@ -1,0 +1,66 @@
+---
+layout: null
+permalink: /llms.txt
+---
+# quantsworld
+
+> The math that connects every science. An open, equation-first reference covering {{ site.topics.size }} topics across {{ site.data.fields.size }} quantitative fields, unified by {{ site.concepts.size }} foundational mathematical concepts.
+
+quantsworld maps how the same mathematics — stochastic calculus, linear algebra, Bayesian inference, differential equations — appears across disciplines that rarely talk to each other. Each topic page derives the core result from first principles and links to the shared math concepts that underpin it. Topics are written for readers who are comfortable with calculus and probability; the site is not a textbook but a structured reference.
+
+## Quantitative Fields
+
+{% assign cs_fields = site.data.fields | where: "category", "cs" -%}
+### Engineering & Computer Science
+{% for field in cs_fields -%}
+- [{{ field.name }}]({{ site.url }}/fields/{{ field.slug }}/): {{ field.description | strip_newlines }}
+{% endfor %}
+{% assign finance_fields = site.data.fields | where: "category", "finance" -%}
+### Finance & Economics
+{% for field in finance_fields -%}
+- [{{ field.name }}]({{ site.url }}/fields/{{ field.slug }}/): {{ field.description | strip_newlines }}
+{% endfor %}
+{% assign life_fields = site.data.fields | where: "category", "life" -%}
+### Life Sciences
+{% for field in life_fields -%}
+- [{{ field.name }}]({{ site.url }}/fields/{{ field.slug }}/): {{ field.description | strip_newlines }}
+{% endfor %}
+{% assign physics_fields = site.data.fields | where: "category", "physics" -%}
+### Physical Sciences
+{% for field in physics_fields -%}
+- [{{ field.name }}]({{ site.url }}/fields/{{ field.slug }}/): {{ field.description | strip_newlines }}
+{% endfor %}
+{% assign earth_fields = site.data.fields | where: "category", "earth" -%}
+### Earth Sciences
+{% for field in earth_fields -%}
+- [{{ field.name }}]({{ site.url }}/fields/{{ field.slug }}/): {{ field.description | strip_newlines }}
+{% endfor %}
+{% assign social_fields = site.data.fields | where: "category", "social" -%}
+### Social Sciences
+{% for field in social_fields -%}
+- [{{ field.name }}]({{ site.url }}/fields/{{ field.slug }}/): {{ field.description | strip_newlines }}
+{% endfor %}
+
+## Mathematical Concepts
+
+These cross-cutting concepts appear across multiple fields and each has its own reference page.
+
+{% assign sorted_concepts = site.concepts | sort: "title" -%}
+{% for concept in sorted_concepts -%}
+- [{{ concept.title }}]({{ site.url }}{{ concept.url }}): {{ concept.intro | strip_newlines | truncatewords: 25 }}
+{% endfor %}
+
+## Browse
+
+- [All fields]({{ site.url }}/fields/): Topic grids for all {{ site.data.fields.size }} quantitative fields
+- [Math concepts index]({{ site.url }}/concepts/): {{ site.concepts.size }} foundational concepts with cross-field usage links
+- [Full content]({{ site.url }}/llms-full.txt): Complete text of all topics and concepts for LLM ingestion
+- [Sitemap]({{ site.url }}/sitemap.xml): Full URL index
+- [Feed]({{ site.url }}/feed.xml): RSS feed
+
+## Technical notes
+
+- Math is typeset with KaTeX. Raw LaTeX is in the source markdown (`$$...$$` display, `$...$` inline).
+- Each topic has a `math_concepts` front-matter list linking to concept pages.
+- Difficulty levels: beginner (1) → expert (5).
+- Source code: https://github.com/{{ site.repository }}

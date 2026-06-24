@@ -1,0 +1,47 @@
+---
+layout: null
+permalink: /llms-full.txt
+---
+# quantsworld — Full Content
+
+Complete text of all {{ site.topics.size }} topics and {{ site.concepts.size }} concepts.
+Index version: {{ site.url }}/llms.txt
+Source: https://github.com/{{ site.repository }}
+
+================================================================================
+MATHEMATICAL CONCEPTS ({{ site.concepts.size }})
+================================================================================
+{% assign sorted_concepts = site.concepts | sort: "title" %}
+{% for concept in sorted_concepts %}
+--------------------------------------------------------------------------------
+## {{ concept.title }}
+
+URL: {{ site.url }}{{ concept.url }}
+Difficulty: {{ concept.difficulty }} ({{ concept.difficulty_level }}/3)
+{% if concept.related_concepts %}Related concepts: {{ concept.related_concepts | join: ", " }}{% endif %}
+
+{{ concept.intro }}
+
+{{ concept.content }}
+{% endfor %}
+
+================================================================================
+TOPICS BY FIELD ({{ site.topics.size }})
+================================================================================
+{% assign sorted_topics = site.topics | sort: "field" %}
+{% for topic in sorted_topics %}
+--------------------------------------------------------------------------------
+## {{ topic.title }}
+
+Field: {{ topic.field }}
+URL: {{ site.url }}{{ topic.url }}
+Difficulty: {{ topic.difficulty }} ({{ topic.difficulty_level }}/5)
+Read time: {{ topic.read_time }} min
+Math concepts: {{ topic.math_concepts | join: ", " }}
+
+{{ topic.description }}
+
+{{ topic.intro }}
+
+{{ topic.content }}
+{% endfor %}
