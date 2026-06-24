@@ -32,8 +32,14 @@ function buildGraph(rawNodes, rawEdges, fieldsBase) {
 
   const area = document.getElementById('l-graph-area');
   if (!area) return;
-  const W = area.clientWidth, H = area.clientHeight;
-  const GUARD = 260;
+  const isMobile = window.innerWidth <= 720;
+  const GUARD = isMobile ? 0 : 260;
+  const W = area.clientWidth;
+  let H = area.clientHeight;
+  if (isMobile) {
+    const hl = area.querySelector('.l-headline');
+    if (hl) H = Math.max(200, area.clientHeight - hl.offsetHeight);
+  }
 
   NODES.forEach(n => {
     n.x = GUARD + Math.random() * (W - GUARD - 30);
