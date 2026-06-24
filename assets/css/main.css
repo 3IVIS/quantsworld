@@ -388,6 +388,7 @@ code {
   /* Stack hero above graph on mobile */
   .landing-shell { flex-direction: column; }
   .l-headline {
+    order: -1;
     position: relative;
     top: auto;
     left: auto;
