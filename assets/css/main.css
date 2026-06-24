@@ -144,6 +144,8 @@ code {
 }
 .l-headline h1 em { font-style: italic; color: var(--blue); }
 .l-headline p { font-size: 0.68rem; color: var(--ink4); margin-top: 0.5rem; line-height: 1.65; }
+.l-headline-sub { font-size: 0.85rem !important; color: var(--ink3) !important; margin-top: 0.4rem !important; }
+.l-headline-sub em { font-style: italic; color: var(--blue); }
 
 .l-hero-eq {
   margin-top: 1.25rem;
@@ -380,6 +382,13 @@ code {
   .fp-sidebar { display: none; }
   .topics-grid { grid-template-columns: 1fr; }
   .fields-grid { grid-template-columns: 1fr 1fr; }
-  .l-headline h1 { font-size: 1.4rem; }
   .nav-links { gap: 1rem; }
+  .l-headline {
+    top: 1.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    max-width: 90vw;
+  }
+  .l-headline h1 { font-size: 1.4rem; }
 }
