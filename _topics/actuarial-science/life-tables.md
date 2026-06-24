@@ -49,7 +49,7 @@ $$
 The **force of mortality** $\mu_x$ is the instantaneous hazard rate of death, analogous to the hazard function in survival analysis. It is defined as:
 
 $$
-\mu_x = \lim_{h \to 0^+} \frac{{}_h q_x}{h} = -\frac{d}{dx} \ln l_x
+\mu_x = \lim_{h \to 0^+} \frac{\!{}_h q_x}{h} = -\frac{d}{dx} \ln l_x
 $$
 
 The connection between $\mu_x$ and the discrete functions is:
