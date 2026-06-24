@@ -118,6 +118,7 @@ code {
 .landing-shell {
   height: calc(100vh - 48px);
   display: flex;
+  position: relative;
 }
 .l-graph-area {
   flex: 1;
@@ -384,11 +385,8 @@ code {
   .fields-grid { grid-template-columns: 1fr 1fr; }
   .nav-links { gap: 1rem; }
 
-  /* Stack hero text above graph on mobile */
-  .l-graph-area {
-    display: flex;
-    flex-direction: column;
-  }
+  /* Stack hero above graph on mobile */
+  .landing-shell { flex-direction: column; }
   .l-headline {
     position: relative;
     top: auto;
@@ -403,9 +401,4 @@ code {
   .l-headline h1 { font-size: 1.3rem; }
   .l-headline p  { font-size: 0.62rem; }
   .l-hero-eq { display: none; }
-  #landing-svg {
-    flex: 1;
-    min-height: 0;
-    height: auto;
-  }
 }
