@@ -2,7 +2,7 @@ _site/
 .sass-cache/
 .jekyll-cache/
 .jekyll-metadata
-vendor/
+/vendor/
 # Gemfile.lock is committed so the CI workflow can use bundler-cache
 .DS_Store
 *.swp
