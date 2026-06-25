@@ -204,8 +204,9 @@ code {
 .field-card {
   background: var(--white);
   border: 1px solid var(--rule);
+  border-left: 3px solid var(--fc, var(--rule));
   border-radius: var(--r);
-  padding: 1rem;
+  padding: 1rem 1rem 1rem calc(1rem - 2px);
   text-decoration: none;
   color: inherit;
   transition: border-color 0.15s, box-shadow 0.15s;
@@ -346,9 +347,9 @@ code {
 /* category colour aliases */
 .chip-cs      { background: var(--blue-soft);   color: var(--blue); }
 .chip-finance { background: var(--green-soft);  color: var(--green); }
-.chip-life    { background: var(--teal-soft);   color: var(--teal); }
+.chip-life    { background: var(--purple-soft); color: var(--purple); }
 .chip-physics { background: var(--amber-soft);  color: var(--amber); }
-.chip-earth   { background: var(--green-soft);  color: var(--teal); }
+.chip-earth   { background: #ccfbf1;            color: #0f766e; }
 .chip-social  { background: var(--pink-soft);   color: var(--pink); }
 
 /* ── NOTE BLOCK ── */
