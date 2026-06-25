@@ -7,7 +7,6 @@
 {% seo %}
 {% include jsonld.html %}
 <script>
-/* Google Analytics and Google Fonts load only after explicit cookie consent */
 (function(){
   function loadGA(){
     if(window._gaLoaded) return; window._gaLoaded = true;
@@ -26,20 +25,66 @@
     document.head.appendChild(l);
   }
   window._qwConsent = { loadGA: loadGA, loadFonts: loadFonts };
-  if(localStorage.getItem('cookie_consent') === 'accepted'){ loadGA(); loadFonts(); }
+  try {
+    var k = JSON.parse(localStorage.getItem('qw_consent') || '{}');
+    if(k['google-analytics']) loadGA();
+    if(k['google-fonts']) loadFonts();
+  } catch(e) {}
 })();
 </script>
+<script type="text/javascript">
+var klaroConfig = {
+  storageMethod: 'localStorage',
+  storageName: 'qw_consent',
+  cookieExpiresAfterDays: 365,
+  privacyPolicy: '/privacy/',
+  default: false,
+  mustConsent: true,
+  acceptAll: true,
+  hideDeclineAll: false,
+  translations: {
+    en: {
+      consentModal: {
+        title: 'Cookie settings',
+        description: 'We use <strong>Google Analytics</strong> to understand how visitors use this site. Analytics cookies are only set after you accept — nothing is tracked by default. See our <a href="/privacy/">Privacy Policy</a> for details.',
+      },
+      decline: 'Decline',
+      ok: 'Accept all',
+      'google-analytics': {
+        description: 'Collects anonymous visit statistics to help us understand how visitors use this site.',
+      },
+      'google-fonts': {
+        description: 'Serves web fonts (EB Garamond, Inter, JetBrains Mono) from Google\'s CDN.',
+      },
+      purposes: {
+        analytics: 'Analytics',
+        styling: 'Styling',
+      },
+    },
+  },
+  services: [
+    {
+      name: 'google-analytics',
+      title: 'Google Analytics',
+      purposes: ['analytics'],
+      required: false,
+      callback: function(consent){ if(consent) window._qwConsent.loadGA(); },
+    },
+    {
+      name: 'google-fonts',
+      title: 'Google Fonts',
+      purposes: ['styling'],
+      required: false,
+      callback: function(consent){ if(consent) window._qwConsent.loadFonts(); },
+    },
+  ],
+};
+</script>
+<script defer type="text/javascript" src="https://cdn.kiprotect.com/klaro/v0.7.18/klaro.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
 {% if page.extra_css %}{% for css in page.extra_css %}<link rel="stylesheet" href="{{ css | relative_url }}">{% endfor %}{% endif %}
-<style>
-#cookie-overlay{display:none;position:fixed;inset:0;z-index:9000;background:rgba(13,13,13,0.4);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1.5rem}
-#cookie-overlay.qw-visible{display:flex;animation:qw-fade 0.2s ease both}
-#cookie-overlay.qw-visible>div{animation:qw-rise 0.22s ease both}
-@keyframes qw-fade{from{opacity:0}to{opacity:1}}
-@keyframes qw-rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-</style>
 </head>
 <body>
 
@@ -60,7 +105,7 @@
   <div class="footer-inner">
     <span class="footer-logo">quants<em>world</em></span>
     <div class="footer-links">
-      <a href="{{ '/impressum/' | relative_url }}">Impressum</a>
+      <a href="{{ '/imprint/' | relative_url }}">Imprint</a>
       <a href="{{ '/privacy/' | relative_url }}">Privacy</a>
       <a href="#" id="cookie-settings-link">Cookies</a>
       <a href="{{ '/contribute/' | relative_url }}">Contribute</a>
@@ -83,60 +128,13 @@ document.addEventListener('DOMContentLoaded', function(){
     throwOnError:false
   });
 
-  var overlay = document.getElementById('cookie-overlay');
-
-  function showModal(){
-    overlay.classList.add('qw-visible');
-    document.body.style.overflow = 'hidden';
-  }
-  function hideModal(){
-    overlay.classList.remove('qw-visible');
-    document.body.style.overflow = '';
-  }
-
-  if(localStorage.getItem('cookie_consent') === null) showModal();
-
-  document.getElementById('cookie-accept').addEventListener('click', function(){
-    localStorage.setItem('cookie_consent','accepted');
-    hideModal();
-    window._qwConsent.loadGA();
-    window._qwConsent.loadFonts();
-  });
-
-  document.getElementById('cookie-decline').addEventListener('click', function(){
-    localStorage.setItem('cookie_consent','declined');
-    hideModal();
-  });
-
   document.getElementById('cookie-settings-link').addEventListener('click', function(e){
     e.preventDefault();
-    showModal();
-  });
-
-  overlay.addEventListener('click', function(e){
-    if(e.target === overlay && localStorage.getItem('cookie_consent') !== null) hideModal();
+    if(typeof klaro !== 'undefined') klaro.show(klaroConfig, true);
   });
 });
 </script>
 {% if page.extra_js %}{% for js in page.extra_js %}<script src="{{ js | relative_url }}"></script>{% endfor %}{% endif %}
-
-<!-- Cookie consent modal -->
-<div id="cookie-overlay" role="dialog" aria-modal="true" aria-labelledby="cookie-title">
-  <div style="background:var(--white);border:1px solid var(--rule);border-radius:var(--r-lg);box-shadow:0 20px 60px rgba(0,0,0,0.18);width:100%;max-width:400px;overflow:hidden">
-    <div style="padding:1.375rem 1.75rem;border-bottom:1px solid var(--rule)">
-      <div class="section-eyebrow">Privacy</div>
-      <h2 id="cookie-title" style="font-family:var(--serif);font-size:1.3rem;font-weight:400;margin:0.2rem 0 0;color:var(--ink)">Cookie settings</h2>
-    </div>
-    <div style="padding:1.375rem 1.75rem;font-size:0.82rem;line-height:1.85;color:var(--ink2)">
-      <p>We use <strong>Google Analytics</strong> to understand how visitors use this site. Analytics cookies are only set after you accept &mdash; nothing is tracked by default.</p>
-      <p style="margin-top:0.75rem">See our <a href="{{ '/privacy/' | relative_url }}" style="color:var(--blue)">Privacy Policy</a> for full details. You can change your preference at any time via the Cookies link in the footer.</p>
-    </div>
-    <div style="padding:1rem 1.75rem 1.375rem;display:flex;gap:0.625rem;justify-content:flex-end">
-      <button id="cookie-decline" style="padding:0.45rem 1rem;border:1px solid var(--rule);border-radius:var(--r);background:transparent;cursor:pointer;font-size:0.78rem;color:var(--ink2);font-family:inherit">Decline</button>
-      <button id="cookie-accept" style="padding:0.45rem 1.125rem;border:none;border-radius:var(--r);background:var(--blue);color:#fff;cursor:pointer;font-size:0.78rem;font-family:inherit">Accept analytics</button>
-    </div>
-  </div>
-</div>
 
 </body>
 </html>

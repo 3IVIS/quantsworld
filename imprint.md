@@ -1,18 +1,18 @@
 ---
 layout: default
-title: "Impressum"
-permalink: /impressum/
+title: "Imprint"
+permalink: /imprint/
 ---
 
 <div class="page-wrap">
   <div class="section-eyebrow">Legal</div>
-  <div class="section-title">Impressum</div>
+  <div class="section-title">Imprint</div>
   <div class="section-sub">Legal notice pursuant to §5 TMG (Telemediengesetz), Germany.</div>
 
   <div style="background:var(--white);border:1px solid var(--rule);border-radius:var(--r-lg);overflow:hidden;max-width:640px">
     <div style="padding:1.5rem 1.75rem;border-bottom:1px solid var(--rule)">
       <div class="art-eyebrow">Legal notice</div>
-      <h1 style="font-family:var(--serif);font-size:1.75rem;font-weight:400">Impressum</h1>
+      <h1 style="font-family:var(--serif);font-size:1.75rem;font-weight:400">Imprint</h1>
     </div>
     <div style="padding:1.5rem 1.75rem;font-size:0.82rem;line-height:1.9;color:var(--ink2)">
 
