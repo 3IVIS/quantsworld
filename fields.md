@@ -19,7 +19,7 @@ permalink: /fields/
       <div class="category-eyebrow chip chip-{{ cat_id }}">{{ cat_group.items[0].category_name }}</div>
       <div class="fields-grid">
         {% for field in cat_group.items %}
-        <a class="field-card" href="{{ '/fields/' | append: field.slug | relative_url }}">
+        <a class="field-card" href="{{ '/fields/' | append: field.slug | relative_url }}" style="--fc: {{ field.color }}">
           <div class="field-card-icon"><i class="ti {{ field.icon }}"></i></div>
           <div class="field-card-name">{{ field.name }}</div>
           <div class="field-card-desc">{{ field.description | strip_newlines | truncate: 100 }}</div>

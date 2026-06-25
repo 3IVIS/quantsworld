@@ -211,8 +211,8 @@ code {
   transition: border-color 0.15s, box-shadow 0.15s;
   display: block;
 }
-.field-card:hover { border-color: var(--blue); box-shadow: 0 2px 12px rgba(35,72,196,0.07); }
-.field-card-icon { font-size: 1.1rem; margin-bottom: 0.5rem; }
+.field-card:hover { border-color: var(--fc, var(--blue)); box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+.field-card-icon { font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--fc, var(--ink3)); }
 .field-card-name { font-size: 0.85rem; font-weight: 500; color: var(--ink); margin-bottom: 0.3rem; }
 .field-card-desc { font-size: 0.68rem; color: var(--ink3); line-height: 1.55; }
 

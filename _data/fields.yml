@@ -8,6 +8,7 @@
   category: cs
   category_name: Engineering & CS
   icon: ti-cpu
+  color: '#4338ca'
   size: 1.35
   equation: '\mathcal{L}=-\sum y_i\log\hat{y}_i'
   description: >
@@ -20,6 +21,7 @@
   category: finance
   category_name: Finance & economics
   icon: ti-chart-line
+  color: '#059669'
   size: 1.15
   equation: 'dS=\mu S\,dt+\sigma S\,dW_t'
   description: >
@@ -32,6 +34,7 @@
   category: life
   category_name: Life sciences
   icon: ti-activity
+  color: '#e11d48'
   size: 1.1
   equation: 'S(t)=e^{-\int_0^t\lambda\,du}'
   description: >
@@ -44,6 +47,7 @@
   category: finance
   category_name: Finance & economics
   icon: ti-building-bank
+  color: '#d97706'
   size: 1.05
   equation: '\hat\beta=(X^\top X)^{-1}X^\top y'
   description: >
@@ -56,6 +60,7 @@
   category: physics
   category_name: Physical sciences
   icon: ti-atom
+  color: '#7c3aed'
   size: 1.05
   equation: 'U|\psi\rangle=e^{-iHt/\hbar}|\psi\rangle'
   description: >
@@ -68,6 +73,7 @@
   category: life
   category_name: Life sciences
   icon: ti-dna
+  color: '#0891b2'
   size: 1.05
   equation: '\Pr(\pi|x)\propto\Pr(x|\pi)\Pr(\pi)'
   description: >
@@ -80,6 +86,7 @@
   category: physics
   category_name: Physical sciences
   icon: ti-planet
+  color: '#1e3a8a'
   size: 0.95
   equation: 'H^2=\tfrac{8\pi G}{3}\rho'
   description: >
@@ -92,6 +99,7 @@
   category: cs
   category_name: Engineering & CS
   icon: ti-wave-sine
+  color: '#0ea5e9'
   size: 0.95
   equation: 'X[k]=\sum_n x[n]e^{-2\pi ikn/N}'
   description: >
@@ -104,6 +112,7 @@
   category: cs
   category_name: Engineering & CS
   icon: ti-route
+  color: '#ea580c'
   size: 0.9
   equation: '\min c^\top x\text{ s.t. }Ax=b'
   description: >
@@ -116,6 +125,7 @@
   category: finance
   category_name: Finance & economics
   icon: ti-shield-check
+  color: '#64748b'
   size: 0.9
   equation: 'A_x=\sum_k v^{k+1}{}_kp_x q_{x+k}'
   description: >
@@ -128,6 +138,7 @@
   category: earth
   category_name: Earth sciences
   icon: ti-cloud-storm
+  color: '#0d9488'
   size: 0.9
   equation: '\partial_t T=\kappa\nabla^2 T+Q'
   description: >
@@ -140,6 +151,7 @@
   category: cs
   category_name: Engineering & CS
   icon: ti-lock
+  color: '#991b1b'
   size: 0.85
   equation: 'c\equiv m^e\pmod{n}'
   description: >
@@ -152,6 +164,7 @@
   category: cs
   category_name: Engineering & CS
   icon: ti-robot
+  color: '#65a30d'
   size: 0.85
   equation: 'p(x_t|z_{1:t})\propto p(z_t|x_t)p(x_t|x_{t-1})'
   description: >
@@ -164,6 +177,7 @@
   category: life
   category_name: Life sciences
   icon: ti-leaf
+  color: '#166534'
   size: 0.8
   equation: '\dot N=rN(1-N/K)'
   description: >
@@ -176,6 +190,7 @@
   category: life
   category_name: Life sciences
   icon: ti-dna-2
+  color: '#c026d3'
   size: 0.8
   equation: 'V_P=V_A+V_D+V_E'
   description: >
@@ -188,6 +203,7 @@
   category: earth
   category_name: Earth sciences
   icon: ti-wind
+  color: '#2563eb'
   size: 0.8
   equation: '\tfrac{D\mathbf v}{Dt}=-\tfrac{\nabla p}{\rho}+\mathbf g'
   description: >
@@ -200,6 +216,7 @@
   category: social
   category_name: Social sciences
   icon: ti-brain
+  color: '#db2777'
   size: 0.78
   equation: 'P(X=1)=\tfrac{e^{\theta-b}}{1+e^{\theta-b}}'
   description: >
@@ -212,6 +229,7 @@
   category: earth
   category_name: Earth sciences
   icon: ti-mountain
+  color: '#78350f'
   size: 0.75
   equation: '\nabla^2\phi=v^{-2}\ddot\phi'
   description: >
@@ -224,6 +242,7 @@
   category: social
   category_name: Social sciences
   icon: ti-chess
+  color: '#ca8a04'
   size: 0.75
   equation: 'u_i(\sigma^*_i,\sigma^*_{-i})\ge u_i(\sigma_i,\sigma^*_{-i})'
   description: >
@@ -236,6 +255,7 @@
   category: physics
   category_name: Physical sciences
   icon: ti-flask
+  color: '#6d28d9'
   size: 0.75
   equation: 'E=\langle\Psi|H|\Psi\rangle/\langle\Psi|\Psi\rangle'
   description: >

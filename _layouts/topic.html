@@ -22,7 +22,7 @@ layout: default
   <div class="fp-body">
     <div class="fp-main">
 
-      {% if field_data %}<div class="art-eyebrow">{{ field_data.category_name }} · Topic</div>{% endif %}
+      {% if field_data %}<div class="art-eyebrow" {% if field_data.color %}style="color: {{ field_data.color }}"{% endif %}>{{ field_data.category_name }} · Topic</div>{% endif %}
       <div class="art-title">{{ page.title }}</div>
 
       {% if page.math_concepts %}

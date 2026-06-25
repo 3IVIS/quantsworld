@@ -16,6 +16,7 @@ function buildGraph(rawNodes, rawEdges, fieldsBase) {
     id:   f.id,
     lb:   f.name,
     cat:  f.category,
+    clr:  f.color || CAT[f.category]?.h || '#666',
     s:    f.size || 1,
     tx:   f.equation || '',
     slug: f.slug,
@@ -88,7 +89,7 @@ function buildGraph(rawNodes, rawEdges, fieldsBase) {
     .attr('rx', d => d.s * 8).attr('ry', d => d.s * 8)
     .attr('width', d => d.s * 30).attr('height', d => d.s * 30)
     .attr('x', d => -d.s * 15).attr('y', d => -d.s * 15)
-    .attr('fill', d => CAT[d.cat].h + '14').attr('stroke', d => CAT[d.cat].h + '44')
+    .attr('fill', d => d.clr + '14').attr('stroke', d => d.clr + '44')
     .attr('stroke-width', 0.8).attr('filter', 'url(#gsh)');
 
   nSel.each(function (d) {
@@ -101,7 +102,7 @@ function buildGraph(rawNodes, rawEdges, fieldsBase) {
       .style('pointer-events', 'none')
       .append('xhtml:i')
       .attr('class', iconClass(d.id))
-      .style('font-size', (d.s * 12) + 'px').style('color', CAT[d.cat].h).style('opacity', '0.85');
+      .style('font-size', (d.s * 12) + 'px').style('color', d.clr).style('opacity', '0.85');
   });
 
   nSel.append('text')
@@ -109,7 +110,7 @@ function buildGraph(rawNodes, rawEdges, fieldsBase) {
     .attr('y', d => d.s * 17 + 4)
     .attr('font-size', d => Math.max(7, d.s * 7) + 'px')
     .attr('font-family', 'Inter,sans-serif').attr('font-weight', '500')
-    .attr('fill', d => CAT[d.cat].h).attr('opacity', 0.85)
+    .attr('fill', d => d.clr).attr('opacity', 0.85)
     .attr('pointer-events', 'none')
     .text(d => d.lb);
 
@@ -140,12 +141,12 @@ function buildGraph(rawNodes, rawEdges, fieldsBase) {
   const tt = document.getElementById('l-tt');
   function setHov(id) {
     const nb2 = id ? new Set([id, ...nb[id]]) : null;
-    eSel.attr('stroke', l => !id ? '#d4d0c8' : (l.source.id === id || l.target.id === id) ? CAT[nm[id].cat].h + 'bb' : '#ebe8e2')
+    eSel.attr('stroke', l => !id ? '#d4d0c8' : (l.source.id === id || l.target.id === id) ? nm[id].clr + 'bb' : '#ebe8e2')
        .attr('stroke-width', l => !id ? 1 : (l.source.id === id || l.target.id === id) ? 2 : 0.7)
        .attr('stroke-opacity', l => !id ? 0.5 : (l.source.id === id || l.target.id === id) ? 1 : 0.1);
     nSel.select('.gbg')
-      .attr('fill', d => !id || nb2.has(d.id) ? CAT[d.cat].h + '18' : '#efede9')
-      .attr('stroke', d => !id || nb2.has(d.id) ? CAT[d.cat].h + '55' : '#ddd')
+      .attr('fill', d => !id || nb2.has(d.id) ? d.clr + '18' : '#efede9')
+      .attr('stroke', d => !id || nb2.has(d.id) ? d.clr + '55' : '#ddd')
       .attr('stroke-width', d => d.id === id ? 1.8 : 0.8)
       .attr('filter', d => d.id === id ? 'url(#gsh2)' : 'url(#gsh)');
     nSel.selectAll('text').attr('opacity', d => !id || nb2.has(d.id) ? 0.85 : 0.18);
@@ -155,7 +156,7 @@ function buildGraph(rawNodes, rawEdges, fieldsBase) {
   nSel.on('mouseover', (_e, d) => {
     setHov(d.id);
     document.getElementById('l-tt-cat').textContent = CAT[d.cat].t;
-    document.getElementById('l-tt-cat').style.color  = CAT[d.cat].h;
+    document.getElementById('l-tt-cat').style.color  = d.clr;
     document.getElementById('l-tt-name').textContent = d.lb;
     const teq = document.getElementById('l-tt-eq');
     try { katex.render(d.tx, teq, { displayMode: false, throwOnError: false }); } catch (x) { teq.textContent = ''; }

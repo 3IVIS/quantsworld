@@ -31,7 +31,7 @@ layout: default
   <div class="fp-body">
     <div class="fp-main">
 
-      {% if field_data %}<div class="art-eyebrow">{{ field_data.category_name }}</div>{% endif %}
+      {% if field_data %}<div class="art-eyebrow" {% if field_data.color %}style="color: {{ field_data.color }}"{% endif %}>{{ field_data.category_name }}</div>{% endif %}
       <div class="art-title">{{ page.title }}</div>
       <div class="art-meta">
         <span><i class="ti ti-book"></i> {{ field_topics.size }} topics</span>
