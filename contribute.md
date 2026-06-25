@@ -64,6 +64,9 @@ permalink: /contribute/
     rebuilds automatically and your topic is live.
   </div>
 
+  <div class="art-h2">Content licence</div>
+  <div class="art-p">All content on quantsworld is published under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">Creative Commons Attribution 4.0 International (CC BY 4.0)</a>. By opening a pull request you agree that your contribution will be released under the same licence, and that you have the right to submit the content you contribute.</div>
+
   <div style="margin-top:1.5rem">
     <a href="https://github.com/3IVIS/quantsworld" target="_blank" rel="noopener"
        style="display:inline-flex;align-items:center;gap:0.5rem;background:var(--blue);color:#fff;padding:0.6rem 1.25rem;border-radius:var(--r);font-size:0.78rem;text-decoration:none">

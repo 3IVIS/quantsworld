@@ -39,7 +39,7 @@ permalink: /impressum/
       <h2 style="font-family:var(--serif);font-size:1.15rem;font-weight:400;margin:1.5rem 0 0.5rem">VAT Identification Number</h2>
       <p>VAT identification number according to §27a UStG: <strong>DE304631216</strong></p>
 
-      <h2 style="font-family:var(--serif);font-size:1.15rem;font-weight:400;margin:1.5rem 0 0.5rem">Responsible for content according to §55 Abs. 2 RStV</h2>
+      <h2 style="font-family:var(--serif);font-size:1.15rem;font-weight:400;margin:1.5rem 0 0.5rem">Responsible for content according to §18 Abs. 2 MStV</h2>
       <p>
         <strong>3IVIS GmbH</strong><br>
         Plöner Str. 25<br>
